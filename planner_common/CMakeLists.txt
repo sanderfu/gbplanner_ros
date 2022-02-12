@@ -36,8 +36,6 @@ cs_add_library(${PROJECT_NAME}
   src/params.cpp
   src/trajectory.cpp
   src/random_sampler.cpp
-  src/voxblox/voxblox_common_impl.cpp
-  src/voxblox/voxblox_alt_impl.cpp
   src/geofence_manager.cpp
 )
 
