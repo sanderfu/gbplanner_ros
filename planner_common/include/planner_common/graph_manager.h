@@ -78,8 +78,10 @@ class GraphManager {
   std::shared_ptr<Graph> graph_;
   // Mapping from vertex id to vertex property.
   std::unordered_map<int, Vertex*> vertices_map_;
-  std::map<int, std::vector<std::pair<int, double>>>
-      edge_map_;  // id:  <neighbor id, edge cost>
+  std::map<int, std::map<int, double>> edge_map_;  // id:  <neighbor id, edge cost>
+
+  void getConnectedNeighbors(int vertex_id, std::vector<Vertex*>& neighbors);
+  double getEdgeWeight(int u_id, int v_id);
 
  private:
   // Kd-tree for nearest neigbor lookup, also keep all vertices.

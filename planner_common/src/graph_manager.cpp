@@ -44,8 +44,8 @@ void GraphManager::addVertex(Vertex* v) {
 
 void GraphManager::addEdge(Vertex* v, Vertex* u, double weight) {
   graph_->addEdge(v->id, u->id, weight);
-  edge_map_[v->id].push_back(std::make_pair(u->id, weight));
-  edge_map_[u->id].push_back(std::make_pair(v->id, weight));
+  edge_map_[v->id].insert(std::make_pair(u->id, weight));
+  edge_map_[u->id].insert(std::make_pair(v->id, weight));
 }
 
 void GraphManager::removeEdge(Vertex* v, Vertex* u) {
@@ -345,4 +345,15 @@ void GraphManager::loadGraph(const std::string& path) {
   convertMsgToGraph(graph_msg);
   ROS_INFO_COND(global_verbosity >= Verbosity::INFO, "Load the graph with [%d] vertices and [%d] edges from a file: %s",
            getNumVertices(), getNumEdges(), path.c_str());
+}
+
+void GraphManager::getConnectedNeighbors(int vertex_id, std::vector<Vertex*>& neighbors){
+  std::map<int, double> neighbor_map = edge_map_[vertex_id];
+  for (auto neighbor : neighbor_map){
+    neighbors.push_back(getVertex(neighbor.first));
+  }
+}
+
+double GraphManager::getEdgeWeight(int u_id, int v_id){
+  return edge_map_[u_id][v_id];
 }
